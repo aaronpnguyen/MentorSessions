@@ -1,0 +1,42 @@
+name: Code Review
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Request review from two reviewers
+        uses: github/request-reviewers@v2
+        with:
+          reviewers: reviewer1, reviewer2
+          team-reviewers: team1, team2
+          number-of-reviewers: 2
+      
+      - name: Wait for reviews
+        uses: Gimenete/wait-for-reviews-action@v1
+        with:
+          reviewers: reviewer1, reviewer2
+          days-to-wait: 3
+      
+      - name: Check review status
+        run: |
+          reviews=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -s https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews | jq -r '.[].state')
+          if echo "$reviews" | grep -q 'CHANGES_REQUESTED'; then
+            echo "One or more reviewers requested changes."
+            exit 1
+          elif echo "$reviews" | grep -q 'APPROVED'; then
+            echo "All reviewers approved the pull request."
+          else
+            echo "No reviews or reviews still pending."
+            exit 1
+          fi
