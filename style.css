@@ -1,0 +1,61 @@
+* {
+    padding: 0;
+    margin: 0;
+    /* outline: solid 1px red */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+:root {
+    --hulu-black: rgba(31, 33, 36, 1);
+    --soft-white: rgb(247, 247, 247);
+    --light-charc:  rgb(100,100,100);
+    --hulu-green: #1fe883;
+}
+
+.navContainer {
+    background-color: var(--hulu-black);
+    color: var(--soft-white);
+    width: 100%;
+}
+
+.nav {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.middleNav {
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+}
+
+.rightNav {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+}
+
+.rightContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+a {
+    padding: 25px;
+}
+
+a:hover {
+    background-color: var(--light-charc);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.hulu-green {
+    color: var(--hulu-green);
+    font-weight: bolder;
+    font-size: larger;
+}
